@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GameTribe - Because Gamers Deserve Their Own Space</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#39FF14',secondary:'#00FFFF'},borderRadius:{'none':'0px','sm':'2px',DEFAULT:'4px','md':'8px','lg':'12px','xl':'16px','2xl':'20px','3xl':'24px','full':'9999px','button':'4px'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+@keyframes fade-in-down {
+0% {
+opacity: 0;
+transform: translateY(-10px);
+}
+100% {
+opacity: 1;
+transform: translateY(0);
+}
+}
+.animate-fade-in-down {
+animation: fade-in-down 0.3s ease-out;
+}
+body {
+background-color: #0A0A0A;
+font-family: 'Orbitron', sans-serif;
+color: #ffffff;
+}
+.hero-section {
+position: relative;
+overflow: hidden;
+}
+.hero-section::before {
+content: "";
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-image: linear-gradient(to right, rgba(10, 10, 10, 0.9), rgba(10, 10, 10, 0.7), rgba(10, 10, 10, 0.5), rgba(10, 10, 10, 0.3));
+z-index: 1;
+}
+.hero-content {
+position: relative;
+z-index: 2;
+}
+.glass-effect {
+backdrop-filter: blur(10px);
+background: rgba(20, 20, 20, 0.6);
+border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.neon-border {
+box-shadow: 0 0 5px #39FF14, 0 0 10px #39FF14;
+}
+.neon-text {
+text-shadow: 0 0 5px #39FF14, 0 0 10px #39FF14;
+}
+.cyber-text {
+text-shadow: 0 0 5px #00FFFF, 0 0 10px #00FFFF;
+}
+.hexagon {
+clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+.grid-pattern {
+background-image: linear-gradient(rgba(57, 255, 20, 0.1) 1px, transparent 1px),
+linear-gradient(90deg, rgba(57, 255, 20, 0.1) 1px, transparent 1px);
+background-size: 20px 20px;
+}
+input, select, textarea {
+background-color: rgba(30, 30, 30, 0.8);
+border: 1px solid rgba(57, 255, 20, 0.3);
+color: white;
+}
+input:focus, select:focus, textarea:focus {
+border-color: #39FF14;
+box-shadow: 0 0 0 2px rgba(57, 255, 20, 0.2);
+outline: none;
+}
+.pulse {
+animation: pulse 2s infinite;
+}
+@keyframes pulse {
+0% {
+box-shadow: 0 0 0 0 rgba(57, 255, 20, 0.7);
+}
+70% {
+box-shadow: 0 0 0 10px rgba(57, 255, 20, 0);
+}
+100% {
+box-shadow: 0 0 0 0 rgba(57, 255, 20, 0);
+}
+}
+.glow-on-hover:hover {
+box-shadow: 0 0 10px #39FF14, 0 0 20px #39FF14;
+}
+.floating {
+animation: floating 3s ease-in-out infinite;
+}
+@keyframes floating {
+0% { transform: translateY(0px); }
+50% { transform: translateY(-10px); }
+100% { transform: translateY(0px); }
+}
+</style>
+</head>
+<body class="min-h-screen grid-pattern">
+<!-- Navigation -->
+<nav class="fixed top-0 left-0 w-full z-50 bg-opacity-20 bg-black backdrop-blur-md border-b border-gray-800">
+<div class="container mx-auto px-6 py-3 flex items-center justify-between">
+<div class="flex items-center">
+<h1 class="text-3xl font-['Pacifico'] text-primary mr-2"></h1>
+</div>
+<div class="hidden md:flex items-center space-x-8">
+<a href="#" class="text-gray-300 hover:text-primary transition-colors">Home</a>
+<a href="#" class="text-gray-300 hover:text-primary transition-colors">Games</a>
+<a href="#" class="text-gray-300 hover:text-primary transition-colors">Communities</a>
+<a href="#" class="text-gray-300 hover:text-primary transition-colors">Events</a>
+<a href="#" class="text-gray-300 hover:text-primary transition-colors">About</a>
+</div>
+<div class="flex items-center space-x-4">
+<button class="w-10 h-10 flex items-center justify-center text-gray-300 hover:text-primary">
+<i class="ri-search-line ri-lg"></i>
+</button>
+<button class="w-10 h-10 flex items-center justify-center text-gray-300 hover:text-primary relative">
+<i class="ri-notification-3-line ri-lg"></i>
+<span class="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full"></span>
+</button>
+<button class="bg-transparent border border-primary text-primary hover:bg-primary hover:text-black transition-colors px-4 py-2 !rounded-button whitespace-nowrap">Log In</button>
+<button id="signUpBtn" class="bg-primary text-black hover:bg-opacity-80 transition-colors px-4 py-2 !rounded-button whitespace-nowrap">Sign Up</button>
+<div id="signUpModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+<div class="bg-[#1a1a1a] p-8 rounded-lg w-full max-w-md relative animate-fade-in-down">
+<button id="closeModal" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+<i class="ri-close-line ri-lg"></i>
+</button>
+<h2 class="text-2xl font-bold mb-6 text-white">Create Your Account</h2>
+<form id="signUpForm" class="space-y-4">
+<div>
+<label class="block text-gray-300 mb-2" for="username">Username</label>
+<input type="text" id="username" class="w-full bg-[#2a2a2a] text-white px-4 py-2 rounded !rounded-button" required>
+<div id="usernameError" class="text-red-500 text-sm mt-1 hidden"></div>
+</div>
+<div>
+<label class="block text-gray-300 mb-2" for="email">Email</label>
+<input type="email" id="email" class="w-full bg-[#2a2a2a] text-white px-4 py-2 rounded !rounded-button" required>
+<div id="emailError" class="text-red-500 text-sm mt-1 hidden"></div>
+</div>
+<div>
+<label class="block text-gray-300 mb-2" for="password">Password</label>
+<input type="password" id="password" class="w-full bg-[#2a2a2a] text-white px-4 py-2 rounded !rounded-button" required>
+<div id="passwordError" class="text-red-500 text-sm mt-1 hidden"></div>
+</div>
+<div>
+<label class="block text-gray-300 mb-2" for="confirmPassword">Confirm Password</label>
+<input type="password" id="confirmPassword" class="w-full bg-[#2a2a2a] text-white px-4 py-2 rounded !rounded-button" required>
+<div id="confirmPasswordError" class="text-red-500 text-sm mt-1 hidden"></div>
+</div>
+<div class="flex items-start space-x-2">
+<input type="checkbox" id="terms" class="mt-1" required>
+<label class="text-gray-300 text-sm" for="terms">I agree to the <a href="#" class="text-primary hover:underline">Terms of Service</a> and <a href="#" class="text-primary hover:underline">Privacy Policy</a></label>
+</div>
+<div id="termsError" class="text-red-500 text-sm mt-1 hidden"></div>
+<button type="submit" class="w-full bg-primary text-black hover:bg-opacity-80 transition-colors py-3 font-bold !rounded-button">
+Create Account
+</button>
+</form>
+</div>
+</div>
+</div>
+</div>
+</nav>
+<!-- Hero Section -->
+<section class="hero-section min-h-screen pt-20 relative">
+<div style="background-image: url('https://readdy.ai/api/search-image?query=futuristic%20gaming%20setup%20with%20neon%20lights%2C%20gaming%20PC%20with%20RGB%20lighting%2C%20multiple%20monitors%20displaying%20games%2C%20dark%20room%20with%20blue%20and%20green%20lighting%2C%20high-quality%20gaming%20peripherals%2C%20immersive%20gaming%20environment%2C%20cyberpunk%20aesthetic&width=1920&height=1080&seq=1&orientation=landscape');" class="absolute top-0 left-0 w-full h-full bg-cover bg-center object-top"></div>
+<div class="container mx-auto px-6 py-20 hero-content">
+<div class="flex flex-col md:flex-row items-center justify-between gap-12">
+<div class="w-full md:w-1/2">
+<h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">
+<span class="cyber-text">GameTribe</span> – Because Gamers Deserve Their Own Space
+</h1>
+<p class="text-xl text-gray-300 mb-8">Connect with fellow gamers, share your epic moments, join communities, and level up your social experience in the ultimate gaming network.</p>
+<div class="flex flex-col sm:flex-row gap-4">
+<button id="joinTribeBtn" class="bg-primary text-black hover:bg-opacity-80 transition-colors px-8 py-3 text-lg font-bold !rounded-button pulse whitespace-nowrap">
+Join the Tribe
+</button>
+<button class="bg-transparent border border-secondary text-secondary hover:bg-secondary hover:text-black transition-colors px-8 py-3 text-lg font-bold !rounded-button whitespace-nowrap">
+Explore Communities
+</button>
+</div>
+</div>
+<div class="w-full md:w-2/5">
+<div class="glass-effect p-8 rounded-lg neon-border">
+<h2 class="text-2xl font-bold mb-6 text-center">Join GameTribe</h2>
+<form>
+<div class="mb-4">
+<label class="block text-gray-300 mb-2">Username</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+<i class="ri-user-line"></i>
+</span>
+<input type="text" class="w-full py-3 pl-10 pr-3 rounded !rounded-button border-none" placeholder="Choose your gamer tag">
+</div>
+</div>
+<div class="mb-4">
+<label class="block text-gray-300 mb-2">Email</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+<i class="ri-mail-line"></i>
+</span>
+<input type="email" class="w-full py-3 pl-10 pr-3 rounded !rounded-button border-none" placeholder="your@email.com">
+</div>
+</div>
+<div class="mb-6">
+<label class="block text-gray-300 mb-2">Password</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+<i class="ri-lock-line"></i>
+</span>
+<input type="password" class="w-full py-3 pl-10 pr-3 rounded !rounded-button border-none" placeholder="Create a strong password">
+</div>
+</div>
+<button type="submit" class="w-full bg-primary text-black hover:bg-opacity-80 transition-colors py-3 font-bold !rounded-button whitespace-nowrap">
+Create Account
+</button>
+<div class="mt-4 text-center text-gray-400">
+Already have an account? <a href="#" class="text-secondary hover:underline">Log in</a>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Features Section -->
+<section class="py-20 bg-black bg-opacity-70">
+<div class="container mx-auto px-6">
+<h2 class="text-3xl font-bold text-center mb-16 cyber-text">Level Up Your Gaming Social Experience</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+<div class="glass-effect p-8 rounded-lg text-center hover:neon-border transition-all duration-300">
+<div class="w-16 h-16 flex items-center justify-center mx-auto mb-6 bg-primary bg-opacity-20 rounded-full">
+<i class="ri-gamepad-line ri-2x text-primary"></i>
+</div>
+<h3 class="text-xl font-bold mb-4">Connect with Gamers</h3>
+<p class="text-gray-300">Find and connect with gamers who share your passion for the same games, genres, and gaming styles.</p>
+</div>
+<div class="glass-effect p-8 rounded-lg text-center hover:neon-border transition-all duration-300">
+<div class="w-16 h-16 flex items-center justify-center mx-auto mb-6 bg-secondary bg-opacity-20 rounded-full">
+<i class="ri-trophy-line ri-2x text-secondary"></i>
+</div>
+<h3 class="text-xl font-bold mb-4">Share Epic Moments</h3>
+<p class="text-gray-300">Upload and share your best gameplay clips, screenshots, and gaming achievements with the community.</p>
+</div>
+<div class="glass-effect p-8 rounded-lg text-center hover:neon-border transition-all duration-300">
+<div class="w-16 h-16 flex items-center justify-center mx-auto mb-6 bg-primary bg-opacity-20 rounded-full">
+<i class="ri-team-line ri-2x text-primary"></i>
+</div>
+<h3 class="text-xl font-bold mb-4">Join Gaming Tribes</h3>
+<p class="text-gray-300">Become part of specialized gaming communities focused on your favorite titles and gaming interests.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Content Feed Section -->
+<section class="py-20">
+<div class="container mx-auto px-6">
+<div class="flex justify-between items-center mb-10">
+<h2 class="text-3xl font-bold neon-text">Gaming Feed</h2>
+<div class="flex items-center space-x-4">
+<button class="bg-transparent border border-gray-700 text-gray-300 hover:border-primary hover:text-primary transition-colors px-4 py-2 !rounded-button whitespace-nowrap flex items-center">
+<i class="ri-filter-3-line mr-2"></i> Filter
+</button>
+<button class="bg-primary text-black hover:bg-opacity-80 transition-colors px-4 py-2 !rounded-button whitespace-nowrap flex items-center">
+<i class="ri-add-line mr-2"></i> Create Post
+</button>
+</div>
+</div>
+<!-- Feed Posts -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Post 1 -->
+<div class="glass-effect rounded-lg overflow-hidden hover:neon-border transition-all duration-300">
+<div class="p-4 border-b border-gray-800 flex items-center">
+<div class="w-12 h-12 hexagon overflow-hidden mr-3 bg-primary">
+<img src="https://readdy.ai/api/search-image?query=cyberpunk%20style%20male%20gamer%20with%20neon%20green%20hair%2C%20futuristic%20gaming%20headset%2C%20dark%20background%2C%20profile%20picture&width=200&height=200&seq=2&orientation=squarish" alt="Profile" class="w-full h-full object-cover">
+</div>
+<div>
+<div class="flex items-center">
+<h4 class="font-bold">NeonSlayer92</h4>
+<span class="ml-2 text-xs px-2 py-1 bg-primary bg-opacity-20 text-primary rounded-full">Legend</span>
+</div>
+<p class="text-xs text-gray-400">2 hours ago</p>
+</div>
+</div>
+<div class="relative">
+<img src="https://readdy.ai/api/search-image?query=epic%20gaming%20moment%20from%20first-person%20shooter%20game%2C%20intense%20action%20scene%20with%20explosions%20and%20special%20effects%2C%20high-quality%20screenshot%20from%20AAA%20game%2C%20cinematic%20moment&width=600&height=400&seq=3&orientation=landscape" alt="Post content" class="w-full h-64 object-cover object-top">
+</div>
+<div class="p-4">
+<p class="mb-4">Just pulled off the most insane clutch in Cyberstrike 2077! Who else is grinding the new season? #GamerLife #Cyberstrike</p>
+<div class="flex justify-between text-gray-400">
+<button class="flex items-center hover:text-primary transition-colors">
+<i class="ri-heart-line mr-1"></i> 248
+</button>
+<button class="flex items-center hover:text-primary transition-colors">
+<i class="ri-chat-1-line mr-1"></i> 42
+</button>
+<button class="flex items-center hover:text-primary transition-colors">
+<i class="ri-share-line mr-1"></i> Share
+</button>
+</div>
+</div>
+</div>
+<!-- Post 2 -->
+<div class="glass-effect rounded-lg overflow-hidden hover:neon-border transition-all duration-300">
+<div class="p-4 border-b border-gray-800 flex items-center">
+<div class="w-12 h-12 hexagon overflow-hidden mr-3 bg-secondary">
+<img src="https://readdy.ai/api/search-image?query=female%20gamer%20with%20blue%20hair%20and%20cyberpunk%20style%2C%20futuristic%20gaming%20setup%2C%20neon%20lighting%2C%20profile%20picture%2C%20dark%20background&width=200&height=200&seq=4&orientation=squarish" alt="Profile" class="w-full h-full object-cover">
+</div>
+<div>
+<div class="flex items-center">
+<h4 class="font-bold">PixelQueen</h4>
+<span class="ml-2 text-xs px-2 py-1 bg-secondary bg-opacity-20 text-secondary rounded-full">Pro</span>
+</div>
+<p class="text-xs text-gray-400">5 hours ago</p>
+</div>
+</div>
+<div class="relative">
+<img src="https://readdy.ai/api/search-image?query=gaming%20setup%20with%20multiple%20monitors%2C%20RGB%20lighting%2C%20gaming%20PC%2C%20mechanical%20keyboard%2C%20gaming%20mouse%2C%20headset%2C%20dark%20room%20with%20neon%20blue%20and%20green%20accent%20lighting&width=600&height=400&seq=5&orientation=landscape" alt="Post content" class="w-full h-64 object-cover object-top">
+</div>
+<div class="p-4">
+<p class="mb-4">Finally completed my dream gaming setup! What do you think? Any suggestions for improvements? #GamingSetup #PCMasterRace</p>
+<div class="flex justify-between text-gray-400">
+<button class="flex items-center hover:text-primary transition-colors">
+<i class="ri-heart-line mr-1"></i> 573
+</button>
+<button class="flex items-center hover:text-primary transition-colors">
+<i class="ri-chat-1-line mr-1"></i> 89
+</button>
+<button class="flex items-center hover:text-primary transition-colors">
+<i class="ri-share-line mr-1"></i> Share
+</button>
+</div>
+</div>
+</div>
+<!-- Post 3 -->
+<div class="glass-effect rounded-lg overflow-hidden hover:neon-border transition-all duration-300">
+<div class="p-4 border-b border-gray-800 flex items-center">
+<div class="w-12 h-12 hexagon overflow-hidden mr-3 bg-primary">
+<img src="https://readdy.ai/api/search-image?query=professional%20esports%20player%20with%20gaming%20jersey%2C%20headset%2C%20confident%20pose%2C%20dark%20background%20with%20team%20logo%2C%20profile%20picture&width=200&height=200&seq=6&orientation=squarish" alt="Profile" class="w-full h-full object-cover">
+</div>
+<div>
+<div class="flex items-center">
+<h4 class="font-bold">EliteSniper</h4>
+<span class="ml-2 text-xs px-2 py-1 bg-primary bg-opacity-20 text-primary rounded-full">Esports</span>
+</div>
+<p class="text-xs text-gray-400">Yesterday</p>
+</div>
+</div>
+<div class="relative">
+<img src="https://readdy.ai/api/search-image?query=esports%20tournament%20arena%20with%20large%20screens%2C%20professional%20gamers%20competing%2C%20audience%20watching%2C%20dramatic%20lighting%2C%20competitive%20gaming%20environment&width=600&height=400&seq=7&orientation=landscape" alt="Post content" class="w-full h-64 object-cover object-top">
+</div>
+<div class="p-4">
+<p class="mb-4">Huge announcement! I'm joining Team Nexus for the upcoming World Championship! So excited for this new chapter! #Esports #TeamNexus</p>
+<div class="flex justify-between text-gray-400">
+<button class="flex items-center hover:text-primary transition-colors">
+<i class="ri-heart-line mr-1"></i> 1.2k
+</button>
+<button class="flex items-center hover:text-primary transition-colors">
+<i class="ri-chat-1-line mr-1"></i> 156
+</button>
+<button class="flex items-center hover:text-primary transition-colors">
+<i class="ri-share-line mr-1"></i> Share
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-10 text-center">
+<button class="bg-transparent border border-primary text-primary hover:bg-primary hover:text-black transition-colors px-6 py-3 !rounded-button whitespace-nowrap">
+Load More
+</button>
+</div>
+</div>
+</section>
+<!-- Trending Games Section -->
+<section class="py-20 bg-black bg-opacity-70">
+<div class="container mx-auto px-6">
+<h2 class="text-3xl font-bold text-center mb-16 cyber-text">Trending Games</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Game 1 -->
+<div class="glass-effect rounded-lg overflow-hidden hover:neon-border transition-all duration-300">
+<div class="relative">
+<img src="https://readdy.ai/api/search-image?query=futuristic%20cyberpunk%20style%20video%20game%20screenshot%2C%20dark%20atmosphere%20with%20neon%20lights%2C%20high-quality%20game%20graphics%2C%20sci-fi%20game%20environment&width=400&height=225&seq=8&orientation=landscape" alt="Game" class="w-full h-48 object-cover object-top">
+<div class="absolute top-2 right-2 bg-primary text-black px-2 py-1 text-xs font-bold rounded">HOT</div>
+</div>
+<div class="p-4">
+<h3 class="font-bold text-lg mb-1">PUBJ</h3>
+<div class="flex items-center mb-3">
+<div class="flex">
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-half-fill text-yellow-400"></i>
+</div>
+<span class="text-gray-400 text-sm ml-2">4.5</span>
+</div>
+<p class="text-sm text-gray-300 mb-4">First-person action RPG set in a dystopian future where cybernetic enhancements define social status.</p>
+<div class="flex justify-between items-center">
+<span class="text-primary font-bold">24.5K players</span>
+<button class="bg-primary text-black hover:bg-opacity-80 transition-colors px-3 py-1 text-sm !rounded-button whitespace-nowrap">
+Join
+</button>
+</div>
+</div>
+</div>
+<!-- Game 2 -->
+<div class="glass-effect rounded-lg overflow-hidden hover:neon-border transition-all duration-300">
+<div class="relative">
+<img src="https://readdy.ai/api/search-image?query=fantasy%20MMORPG%20game%20screenshot%2C%20magical%20world%20with%20dragons%20and%20epic%20landscapes%2C%20high-quality%20game%20graphics%2C%20fantasy%20game%20environment&width=400&height=225&seq=9&orientation=landscape" alt="Game" class="w-full h-48 object-cover object-top">
+<div class="absolute top-2 right-2 bg-secondary text-black px-2 py-1 text-xs font-bold rounded">NEW</div>
+</div>
+<div class="p-4">
+<h3 class="font-bold text-lg mb-1">Free Fire</h3>
+<div class="flex items-center mb-3">
+<div class="flex">
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-line text-yellow-400"></i>
+</div>
+<span class="text-gray-400 text-sm ml-2">4.0</span>
+</div>
+<p class="text-sm text-gray-300 mb-4">Massive multiplayer online role-playing game with an expansive world and intricate class system.</p>
+<div class="flex justify-between items-center">
+<span class="text-primary font-bold">18.2K players</span>
+<button class="bg-primary text-black hover:bg-opacity-80 transition-colors px-3 py-1 text-sm !rounded-button whitespace-nowrap">
+Join
+</button>
+</div>
+</div>
+</div>
+<!-- Game 3 -->
+<div class="glass-effect rounded-lg overflow-hidden hover:neon-border transition-all duration-300">
+<div class="relative">
+<img src="https://readdy.ai/api/search-image?query=competitive%20first-person%20shooter%20game%20screenshot%2C%20intense%20action%20scene%20with%20weapons%20and%20special%20abilities%2C%20high-quality%20game%20graphics%2C%20esports%20game&width=400&height=225&seq=10&orientation=landscape" alt="Game" class="w-full h-48 object-cover object-top">
+</div>
+<div class="p-4">
+<h3 class="font-bold text-lg mb-1">Tactical Ops</h3>
+<div class="flex items-center mb-3">
+<div class="flex">
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+</div>
+<span class="text-gray-400 text-sm ml-2">4.9</span>
+</div>
+<p class="text-sm text-gray-300 mb-4">Competitive 5v5 tactical shooter where precision, strategy, and teamwork are essential for victory.</p>
+<div class="flex justify-between items-center">
+<span class="text-primary font-bold">32.7K players</span>
+<button class="bg-primary text-black hover:bg-opacity-80 transition-colors px-3 py-1 text-sm !rounded-button whitespace-nowrap">
+Join
+</button>
+</div>
+</div>
+</div>
+<!-- Game 4 -->
+<div class="glass-effect rounded-lg overflow-hidden hover:neon-border transition-all duration-300">
+<div class="relative">
+<img src="https://readdy.ai/api/search-image?query=battle%20royale%20game%20screenshot%2C%20colorful%20characters%20in%20action%2C%20high-quality%20game%20graphics%2C%20competitive%20multiplayer%20game%20environment&width=400&height=225&seq=11&orientation=landscape" alt="Game" class="w-full h-48 object-cover object-top">
+</div>
+<div class="p-4">
+<h3 class="font-bold text-lg mb-1">Battle Legends</h3>
+<div class="flex items-center mb-3">
+<div class="flex">
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-line text-yellow-400"></i>
+</div>
+<span class="text-gray-400 text-sm ml-2">4.2</span>
+</div>
+<p class="text-sm text-gray-300 mb-4">Fast-paced battle royale where 100 players fight to be the last one standing in a shrinking play zone.</p>
+<div class="flex justify-between items-center">
+<span class="text-primary font-bold">21.3K players</span>
+<button class="bg-primary text-black hover:bg-opacity-80 transition-colors px-3 py-1 text-sm !rounded-button whitespace-nowrap">
+Join
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Upcoming Events Section -->
+<section class="py-20">
+<div class="container mx-auto px-6">
+<h2 class="text-3xl font-bold text-center mb-16 cyber-text">Upcoming Gaming Events</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Event 1 -->
+<div class="glass-effect rounded-lg overflow-hidden hover:neon-border transition-all duration-300 flex flex-col md:flex-row">
+<div class="md:w-2/5 relative">
+<img src="https://readdy.ai/api/search-image?query=esports%20tournament%20arena%20with%20professional%20gamers%20competing%2C%20large%20audience%2C%20dramatic%20lighting%2C%20competitive%20gaming%20environment%2C%20cyberpunk%20aesthetic&width=400&height=300&seq=12&orientation=landscape" alt="Event" class="w-full h-full object-cover object-top">
+<div class="absolute top-0 left-0 bg-primary text-black px-3 py-2 font-bold">JUN 28</div>
+</div>
+<div class="p-6 md:w-3/5">
+<h3 class="font-bold text-xl mb-2">World Championship Finals</h3>
+<p class="text-gray-300 mb-4">The ultimate showdown between the top 8 teams from around the world competing for the $2 million prize pool.</p>
+<div class="flex items-center text-gray-400 mb-4">
+<i class="ri-map-pin-line mr-2"></i>
+<span>Neo Tokyo Arena, Japan</span>
+</div>
+<div class="flex items-center text-gray-400 mb-6">
+<i class="ri-time-line mr-2"></i>
+<span>18:00 - 23:00 JST</span>
+</div>
+<button class="bg-primary text-black hover:bg-opacity-80 transition-colors px-4 py-2 !rounded-button whitespace-nowrap">
+Register Now
+</button>
+</div>
+</div>
+<!-- Event 2 -->
+<div class="glass-effect rounded-lg overflow-hidden hover:neon-border transition-all duration-300 flex flex-col md:flex-row">
+<div class="md:w-2/5 relative">
+<img src="https://readdy.ai/api/search-image?query=gaming%20convention%20with%20booths%2C%20new%20game%20demos%2C%20cosplayers%2C%20crowds%20of%20gamers%2C%20colorful%20displays%2C%20exhibition%20hall%2C%20cyberpunk%20aesthetic&width=400&height=300&seq=13&orientation=landscape" alt="Event" class="w-full h-full object-cover object-top">
+<div class="absolute top-0 left-0 bg-secondary text-black px-3 py-2 font-bold">JUL 15</div>
+</div>
+<div class="p-6 md:w-3/5">
+<h3 class="font-bold text-xl mb-2">GameCon 2025</h3>
+<p class="text-gray-300 mb-4">The biggest gaming convention of the year featuring new game reveals, developer panels, and exclusive demos.</p>
+<div class="flex items-center text-gray-400 mb-4">
+<i class="ri-map-pin-line mr-2"></i>
+<span>Los Angeles Convention Center, USA</span>
+</div>
+<div class="flex items-center text-gray-400 mb-6">
+<i class="ri-time-line mr-2"></i>
+<span>10:00 - 20:00 PDT (3 Days)</span>
+</div>
+<button class="bg-primary text-black hover:bg-opacity-80 transition-colors px-4 py-2 !rounded-button whitespace-nowrap">
+Get Tickets
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-20 relative">
+<div style="background-image: url('https://readdy.ai/api/search-image?query=futuristic%20gaming%20community%20gathering%2C%20diverse%20group%20of%20gamers%20with%20headsets%20and%20controllers%2C%20neon%20lighting%2C%20cyberpunk%20aesthetic%2C%20dark%20background%20with%20blue%20and%20green%20accents&width=1920&height=600&seq=14&orientation=landscape');" class="absolute top-0 left-0 w-full h-full bg-cover bg-center opacity-30 object-top"></div>
+<div class="container mx-auto px-6 relative z-10">
+<div class="max-w-3xl mx-auto text-center">
+<h2 class="text-4xl font-bold mb-6 cyber-text">Ready to Join the Ultimate Gaming Community?</h2>
+<p class="text-xl text-gray-300 mb-10">Connect with millions of gamers, share your epic moments, and become part of the most vibrant gaming social network ever created.</p>
+<button class="cta-signup bg-primary text-black hover:bg-opacity-80 transition-colors px-8 py-4 text-xl font-bold !rounded-button pulse whitespace-nowrap">
+Join GameTribe Now
+</button>
+<p class="mt-6 text-gray-400">Already a member? <a href="#" class="text-secondary hover:underline" id="loginLink">Log in here</a></p>
+<div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+  <div class="bg-[#1a1a1a] p-8 rounded-lg w-full max-w-md relative animate-fade-in-down">
+    <button id="closeLoginModal" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+      <i class="ri-close-line ri-lg"></i>
+    </button>
+    <h2 class="text-2xl font-bold mb-6 text-white">Welcome Back</h2>
+    <form id="loginForm" class="space-y-4">
+      <div>
+        <label class="block text-gray-300 mb-2" for="loginEmail">Email or Username</label>
+        <input type="text" id="loginEmail" class="w-full bg-[#2a2a2a] text-white px-4 py-2 rounded !rounded-button" required>
+        <div id="loginEmailError" class="text-red-500 text-sm mt-1 hidden"></div>
+      </div>
+      <div>
+        <label class="block text-gray-300 mb-2" for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" class="w-full bg-[#2a2a2a] text-white px-4 py-2 rounded !rounded-button" required>
+        <div id="loginPasswordError" class="text-red-500 text-sm mt-1 hidden"></div>
+      </div>
+      <div class="flex items-center justify-between">
+        <div class="flex items-center">
+          <input type="checkbox" id="rememberMe" class="mr-2">
+          <label for="rememberMe" class="text-gray-300 text-sm">Remember me</label>
+        </div>
+        <a href="#" class="text-secondary hover:underline text-sm">Forgot Password?</a>
+      </div>
+      <button type="submit" class="w-full bg-primary text-black hover:bg-opacity-80 transition-colors py-3 font-bold !rounded-button">
+        Log In
+      </button>
+    </form>
+  </div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-black bg-opacity-90 pt-16 pb-8 border-t border-gray-800">
+<div class="container mx-auto px-6">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-16">
+<div>
+<h3 class="text-2xl font-['Pacifico'] text-primary mb-6"></h3>
+<p class="text-gray-400 mb-6">The ultimate social network built exclusively for gamers. Connect, share, and level up your social experience.</p>
+<div class="flex space-x-4">
+<a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 text-gray-300 hover:bg-primary hover:text-black transition-colors">
+<i class="ri-twitter-x-line"></i>
+</a>
+<a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 text-gray-300 hover:bg-primary hover:text-black transition-colors">
+<i class="ri-discord-line"></i>
+</a>
+<a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 text-gray-300 hover:bg-primary hover:text-black transition-colors">
+<i class="ri-twitch-line"></i>
+</a>
+<a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 text-gray-300 hover:bg-primary hover:text-black transition-colors">
+<i class="ri-youtube-line"></i>
+</a>
+</div>
+</div>
+<div>
+<h4 class="text-lg font-bold mb-6">Quick Links</h4>
+<ul class="space-y-3">
+<li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Home</a></li>
+<li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Games</a></li>
+<li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Communities</a></li>
+<li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Events</a></li>
+<li><a href="#" class="text-gray-400 hover:text-primary transition-colors">About Us</a></li>
+<li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Contact</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-lg font-bold mb-6">Game Categories</h4>
+<ul class="space-y-3">
+<li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Action & Adventure</a></li>
+<li><a href="#" class="text-gray-400 hover:text-primary transition-colors">FPS & Shooters</a></li>
+<li><a href="#" class="text-gray-400 hover:text-primary transition-colors">RPG & MMORPGs</a></li>
+<li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Strategy & Simulation</a></li>
+<li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Sports & Racing</a></li>
+<li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Indie & Casual</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-lg font-bold mb-6">Stay Updated</h4>
+<p class="text-gray-400 mb-4">Subscribe to our newsletter for the latest gaming news and events.</p>
+<form>
+<div class="flex mb-4">
+<input type="email" placeholder="Your email address" class="w-full py-3 px-4 rounded-l !rounded-button border-none">
+<button type="submit" class="bg-primary text-black px-4 py-3 rounded-r !rounded-button whitespace-nowrap">
+Subscribe
+</button>
+</div>
+</form>
+<p class="text-gray-500 text-sm">By subscribing, you agree to our Privacy Policy and Terms of Service.</p>
+</div>
+</div>
+<div class="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
+<p class="text-gray-500 text-sm mb-4 md:mb-0">© 2025 GameTribe. All rights reserved.</p>
+<div class="flex space-x-6">
+<a href="#" class="text-gray-500 text-sm hover:text-gray-300 transition-colors">Privacy Policy</a>
+<a href="#" class="text-gray-500 text-sm hover:text-gray-300 transition-colors">Terms of Service</a>
+<a href="#" class="text-gray-500 text-sm hover:text-gray-300 transition-colors">Cookie Policy</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- Floating Post Button (Mobile Only) -->
+<div class="fixed bottom-6 right-6 md:hidden z-30">
+<button class="w-14 h-14 flex items-center justify-center bg-primary text-black rounded-full shadow-lg pulse">
+<i class="ri-add-line ri-xl"></i>
+</button>
+</div>
+<script id="navbarToggle">
+document.addEventListener('DOMContentLoaded', function() {
+const navbarLinks = document.querySelectorAll('nav a');
+navbarLinks.forEach(link => {
+link.addEventListener('click', function(e) {
+e.preventDefault();
+// Remove active class from all links
+navbarLinks.forEach(l => l.classList.remove('text-primary'));
+// Add active class to clicked link
+this.classList.add('text-primary');
+});
+});
+});
+</script>
+<script id="loginInteractions">
+document.addEventListener('DOMContentLoaded', function() {
+  const loginLink = document.getElementById('loginLink');
+  const loginModal = document.getElementById('loginModal');
+  const closeLoginModal = document.getElementById('closeLoginModal');
+  const loginForm = document.getElementById('loginForm');
+  function showLoginModal() {
+    loginModal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    const loginEmailInput = document.getElementById('loginEmail');
+    if (loginEmailInput) {
+      setTimeout(() => {
+        loginEmailInput.focus();
+      }, 300);
+    }
+  }
+  function hideLoginModal() {
+    loginModal.classList.add('hidden');
+    document.body.style.overflow = '';
+    resetLoginForm();
+  }
+  function resetLoginForm() {
+    loginForm.reset();
+    const errorElements = loginForm.querySelectorAll('[id$="Error"]');
+    errorElements.forEach(el => el.classList.add('hidden'));
+    const inputs = loginForm.querySelectorAll('input');
+    inputs.forEach(input => input.classList.remove('border-red-500'));
+  }
+  function validateLoginForm() {
+    let isValid = true;
+    const email = document.getElementById('loginEmail');
+    const password = document.getElementById('loginPassword');
+    if (!email.value.trim()) {
+      showLoginError('loginEmail', 'Please enter your email or username');
+      isValid = false;
+    }
+    if (!password.value) {
+      showLoginError('loginPassword', 'Please enter your password');
+      isValid = false;
+    }
+    return isValid;
+  }
+  function showLoginError(fieldId, message) {
+    const errorElement = document.getElementById(`${fieldId}Error`);
+    const inputElement = document.getElementById(fieldId);
+    errorElement.textContent = message;
+    errorElement.classList.remove('hidden');
+    inputElement.classList.add('border-red-500');
+    inputElement.addEventListener('input', () => {
+      errorElement.classList.add('hidden');
+      inputElement.classList.remove('border-red-500');
+    }, { once: true });
+  }
+  loginLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    showLoginModal();
+  });
+  closeLoginModal.addEventListener('click', () => {
+    hideLoginModal();
+  });
+  loginModal.addEventListener('click', (e) => {
+    if (e.target === loginModal) {
+      hideLoginModal();
+    }
+  });
+  loginForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (!validateLoginForm()) return;
+    const submitButton = this.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+    submitButton.innerHTML = '<i class="ri-loader-4-line animate-spin mr-2"></i>Logging in...';
+    setTimeout(() => {
+      submitButton.disabled = false;
+      submitButton.innerHTML = 'Log In';
+      hideLoginModal();
+      showLoginSuccessMessage();
+    }, 2000);
+  });
+  function showLoginSuccessMessage() {
+    const successDiv = document.createElement('div');
+    successDiv.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded shadow-lg z-50 animate-fade-in-down';
+    successDiv.textContent = 'Logged in successfully!';
+    document.body.appendChild(successDiv);
+    setTimeout(() => {
+      successDiv.remove();
+    }, 3000);
+  }
+});
+</script>
+<script id="signupInteractions">
+document.addEventListener('DOMContentLoaded', function() {
+const signUpBtn = document.getElementById('signUpBtn');
+const joinTribeBtn = document.getElementById('joinTribeBtn');
+const ctaSignupBtn = document.querySelector('.cta-signup');
+const signUpModal = document.getElementById('signUpModal');
+const closeModal = document.getElementById('closeModal');
+const signUpForm = document.getElementById('signUpForm');
+function showModal() {
+signUpModal.classList.remove('hidden');
+signUpModal.classList.add('animate-fade-in-down');
+document.body.style.overflow = 'hidden';
+const usernameInput = document.getElementById('username');
+if (usernameInput) {
+setTimeout(() => {
+usernameInput.focus();
+}, 300);
+}
+}
+if (ctaSignupBtn) {
+ctaSignupBtn.addEventListener('click', function(e) {
+e.preventDefault();
+showModal();
+});
+}
+if (joinTribeBtn) {
+joinTribeBtn.addEventListener('click', function(e) {
+e.preventDefault();
+showModal();
+});
+}
+signUpBtn.addEventListener('click', () => {
+signUpModal.classList.remove('hidden');
+document.body.style.overflow = 'hidden';
+});
+closeModal.addEventListener('click', () => {
+signUpModal.classList.add('hidden');
+document.body.style.overflow = '';
+resetForm();
+});
+signUpModal.addEventListener('click', (e) => {
+if (e.target === signUpModal) {
+signUpModal.classList.add('hidden');
+document.body.style.overflow = '';
+resetForm();
+}
+});
+function resetForm() {
+signUpForm.reset();
+const errorElements = signUpForm.querySelectorAll('[id$="Error"]');
+errorElements.forEach(el => el.classList.add('hidden'));
+const inputs = signUpForm.querySelectorAll('input');
+inputs.forEach(input => input.classList.remove('border-red-500'));
+}
+function validateForm() {
+let isValid = true;
+const username = document.getElementById('username');
+const email = document.getElementById('email');
+const password = document.getElementById('password');
+const confirmPassword = document.getElementById('confirmPassword');
+const terms = document.getElementById('terms');
+// Username validation
+if (username.value.trim().length < 3) {
+showError('username', 'Username must be at least 3 characters');
+isValid = false;
+}
+// Email validation
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+if (!emailRegex.test(email.value.trim())) {
+showError('email', 'Please enter a valid email address');
+isValid = false;
+}
+// Password validation
+if (password.value.length < 8) {
+showError('password', 'Password must be at least 8 characters');
+isValid = false;
+}
+// Confirm password validation
+if (password.value !== confirmPassword.value) {
+showError('confirmPassword', 'Passwords do not match');
+isValid = false;
+}
+// Terms validation
+if (!terms.checked) {
+showError('terms', 'You must accept the terms and conditions');
+isValid = false;
+}
+return isValid;
+}
+function showError(fieldId, message) {
+const errorElement = document.getElementById(`${fieldId}Error`);
+const inputElement = document.getElementById(fieldId);
+errorElement.textContent = message;
+errorElement.classList.remove('hidden');
+inputElement.classList.add('border-red-500');
+inputElement.addEventListener('input', () => {
+errorElement.classList.add('hidden');
+inputElement.classList.remove('border-red-500');
+}, { once: true });
+}
+signUpForm.addEventListener('submit', function(e) {
+e.preventDefault();
+if (!validateForm()) return;
+const submitButton = this.querySelector('button[type="submit"]');
+submitButton.disabled = true;
+submitButton.innerHTML = '<i class="ri-loader-4-line animate-spin mr-2"></i>Creating Account...';
+setTimeout(() => {
+submitButton.disabled = false;
+submitButton.innerHTML = 'Create Account';
+signUpModal.classList.add('hidden');
+document.body.style.overflow = '';
+showSuccessMessage();
+resetForm();
+}, 2000);
+});
+const signupButton = document.querySelector('.cta-signup');
+const usernameInput = signupForm.querySelector('input[type="text"]');
+const emailInput = signupForm.querySelector('input[type="email"]');
+const passwordInput = signupForm.querySelector('input[type="password"]');
+const submitButton = signupForm.querySelector('button[type="submit"]');
+signupButton.addEventListener('click', function(e) {
+e.preventDefault();
+signupForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+usernameInput.focus();
+});
+signupForm.addEventListener('submit', function(e) {
+e.preventDefault();
+if (!validateForm()) return;
+submitButton.disabled = true;
+submitButton.innerHTML = '<i class="ri-loader-4-line animate-spin mr-2"></i>Creating Account...';
+setTimeout(() => {
+submitButton.disabled = false;
+submitButton.innerHTML = 'Create Account';
+showSuccessMessage();
+}, 2000);
+});
+function validateForm() {
+let isValid = true;
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+if (!usernameInput.value.trim()) {
+showError(usernameInput, 'Username is required');
+isValid = false;
+}
+if (!emailRegex.test(emailInput.value.trim())) {
+showError(emailInput, 'Please enter a valid email');
+isValid = false;
+}
+if (passwordInput.value.length < 6) {
+showError(passwordInput, 'Password must be at least 6 characters');
+isValid = false;
+}
+return isValid;
+}
+function showError(input, message) {
+const errorDiv = input.parentElement.querySelector('.error-message');
+if (!errorDiv) {
+const div = document.createElement('div');
+div.className = 'error-message text-red-500 text-sm mt-1';
+div.textContent = message;
+input.parentElement.appendChild(div);
+}
+input.classList.add('border-red-500');
+input.addEventListener('input', function() {
+const errorDiv = this.parentElement.querySelector('.error-message');
+if (errorDiv) {
+errorDiv.remove();
+}
+this.classList.remove('border-red-500');
+}, { once: true });
+}
+function showSuccessMessage() {
+const successDiv = document.createElement('div');
+successDiv.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded shadow-lg z-50 animate-fade-in-down';
+successDiv.textContent = 'Account created successfully!';
+document.body.appendChild(successDiv);
+setTimeout(() => {
+successDiv.remove();
+}, 3000);
+}
+});
+</script>
+<script id="postInteractions">
+document.addEventListener('DOMContentLoaded', function() {
+const likeButtons = document.querySelectorAll('.ri-heart-line');
+likeButtons.forEach(button => {
+button.addEventListener('click', function() {
+const parentElement = this.parentElement;
+if (this.classList.contains('ri-heart-line')) {
+this.classList.remove('ri-heart-line');
+this.classList.add('ri-heart-fill');
+this.classList.add('text-red-500');
+// Increment like count
+const countText = this.nextSibling;
+const count = parseInt(countText.textContent.trim());
+countText.textContent = ` ${count + 1}`;
+} else {
+this.classList.remove('ri-heart-fill');
+this.classList.remove('text-red-500');
+this.classList.add('ri-heart-line');
+// Decrement like count
+const countText = this.nextSibling;
+const count = parseInt(countText.textContent.trim());
+countText.textContent = ` ${count - 1}`;
+}
+});
+});
+});
+</script>
+</body>
+</html>
